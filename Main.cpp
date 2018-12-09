@@ -3,6 +3,7 @@
 #include "RGBAColor.h"
 #include "Camera.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include "Scene.h"
 #include "RenderConfig.h"
 #include "RenderManager.h"
@@ -21,14 +22,16 @@ int main(int argc, char ** argv)
 	Camera* camera = new Camera(Vertex3f(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 1.0f), WIDTH, HEIGHT, RenderConfig::E_RENDER_PLANE_FORMAT::eRGBA, RenderConfig::E_RENDER_PLANE_TYPE::eChar);
 	
 	//Create Scene
-	Sphere* sphere = new Sphere(Vertex3f(0.0f, 0.0f, 6.0f), RGBAColor(255, 0, 0, 255), 50.0f);
+	Sphere* redSphere = new Sphere(Vertex3f(-20.0f, 0.0f, 6.0f), RGBAColor(255, 0, 0, 255), 50.0f);
+	Sphere* greenSphere = new Sphere(Vertex3f(20.0f, 0.0f, 6.0f), RGBAColor(0, 255, 0, 255), 50.0f);
 	Scene* scene = new Scene();
-	scene->AddShape(sphere);
+	scene->AddShape(redSphere);
+	scene->AddShape(greenSphere);
 
 	//Configure RenderManager
 	RenderConfig renderConfig;
 	renderConfig.SetBackgroundColor(RGBAColor(255, 255, 255, 255));
-	//renderConfig.SetMSAA(RenderConfig::e4X);
+	renderConfig.SetMSAA(RenderConfig::e4X);
 
 	RenderManager& renderManager = RenderManager::GetRenderManager();
 	renderManager.AttachCamera(camera);
@@ -80,7 +83,8 @@ int main(int argc, char ** argv)
 	//Destroy
 	renderManager.Reset();
 	delete scene;
-	delete sphere;
+	delete redSphere;
+	delete greenSphere;
 	delete camera;
 
 	if (!pixelData)
