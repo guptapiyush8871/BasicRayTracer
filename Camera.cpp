@@ -7,17 +7,17 @@ Camera::Camera() :
 	m_Height(512),
 	m_RenderPlaneMinDIstance(0.0f)
 {
-	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height);
+	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height, RenderConfig::E_RENDER_PLANE_FORMAT::eRGBA, RenderConfig::E_RENDER_PLANE_TYPE::eInt);
 }
 
-Camera::Camera(const Vertex3f& iOrigin, const Vector3D& iDirection, const unsigned int iWidth, const unsigned int iHeight) :
+Camera::Camera(const Vertex3f& iOrigin, const Vector3D& iDirection, const unsigned int iWidth, const unsigned int iHeight, RenderConfig::E_RENDER_PLANE_FORMAT iRenderPlaneFormat, const RenderConfig::E_RENDER_PLANE_TYPE iRenderPlaneType) :
 	m_Origin(iOrigin),
 	m_Direction(iDirection),
 	m_Width(iWidth),
 	m_Height(iHeight),
 	m_RenderPlaneMinDIstance(0.0f)
 {
-	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height);
+	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height, iRenderPlaneFormat, iRenderPlaneType);
 }
 
 Camera::Camera(const Camera& iCamera) 
@@ -27,7 +27,9 @@ Camera::Camera(const Camera& iCamera)
 	m_Width = iCamera.m_Width;
 	m_Height = iCamera.m_Height;
 	m_RenderPlaneMinDIstance = m_RenderPlaneMinDIstance;
-	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height);
+	RenderConfig::E_RENDER_PLANE_FORMAT renderPlaneFormat = iCamera.GetRenderPlane()->GetRenderPlaneFormat();
+	RenderConfig::E_RENDER_PLANE_TYPE renderPlaneType = iCamera.GetRenderPlane()->GetRenderPlaneType();
+	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height, renderPlaneFormat, renderPlaneType);
 }
 
 Camera::~Camera() 
@@ -86,6 +88,8 @@ const Camera& Camera::operator=(const Camera& iCamera)
 	m_Width = iCamera.m_Width;
 	m_Height = iCamera.m_Height;
 	m_RenderPlaneMinDIstance = m_RenderPlaneMinDIstance;
-	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height);
+	RenderConfig::E_RENDER_PLANE_FORMAT renderPlaneFormat = iCamera.GetRenderPlane()->GetRenderPlaneFormat();
+	RenderConfig::E_RENDER_PLANE_TYPE renderPlaneType = iCamera.GetRenderPlane()->GetRenderPlaneType();
+	m_RenderPlane = new RenderPlane(m_Origin, m_Direction, m_Width, m_Height, renderPlaneFormat, renderPlaneType);
 	return (*this);
 }

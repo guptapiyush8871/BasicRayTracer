@@ -12,6 +12,8 @@ public:
 	void SetColor(const unsigned short iR, const unsigned short iG, const unsigned short iB, const unsigned short iA);
 	void GetColor(unsigned short& oR, unsigned short& oG, unsigned short& oB, unsigned short& oA) const;
 
+	const RGBAColor& operator=(const RGBAColor& iColor);
+
 private:
 	unsigned short m_R;
 	unsigned short m_G;

@@ -4,12 +4,13 @@
 #include "RenderPlane.h"
 #include "Vertex3f.h"
 #include "Vector3D.h"
+#include "RenderConfig.h"
 
 class Camera 
 {
 public:
 	Camera();
-	Camera(const Vertex3f& iOrigin, const Vector3D& iDirection, const unsigned int iWidth, const unsigned int iHeight);
+	Camera(const Vertex3f& iOrigin, const Vector3D& iDirection, const unsigned int iWidth, const unsigned int iHeight, RenderConfig::E_RENDER_PLANE_FORMAT iRenderPlaneFormat, const RenderConfig::E_RENDER_PLANE_TYPE iRenderPlaneType);
 	Camera(const Camera& iCamera);
 	~Camera();
 

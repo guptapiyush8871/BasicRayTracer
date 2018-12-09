@@ -43,3 +43,13 @@ void RGBAColor::GetColor(unsigned short& oR, unsigned short& oG, unsigned short&
 	oB = m_B;
 	oA = m_A;
 }
+
+const RGBAColor& RGBAColor::operator=(const RGBAColor& iColor)
+{
+	m_R = iColor.m_R;
+	m_G = iColor.m_G;
+	m_B = iColor.m_B;
+	m_A = iColor.m_A;
+
+	return (*this);
+}

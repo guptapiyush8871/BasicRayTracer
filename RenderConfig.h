@@ -17,11 +17,34 @@ public:
 		e16X
 	};
 
-	EMSAA m_Msaa;
-	RGBAColor m_BackgroundColor;
+	enum E_RENDER_PLANE_TYPE
+	{
+		eInt = sizeof(int),
+		eUnsignedShort = sizeof(unsigned short),
+		eChar = sizeof(char)
+	};
+
+	enum E_RENDER_PLANE_FORMAT 
+	{
+		eRGBA = 4
+	};
 
 	RenderConfig();
+	~RenderConfig();
+
+	void SetBackgroundColor(const RGBAColor& iBackgroundColor);
+	RGBAColor GetBackgroundColor() const;
+	
+	void SetMSAA(const EMSAA iMsaa);
+	EMSAA GetMSAA() const;
 	std::vector<std::pair<float, float> > GetSampleLocations(EMSAA iMsaa) const;
+
+	//Friends
+	friend class RenderManager;
+
+private:
+	EMSAA m_Msaa;
+	RGBAColor m_BackgroundColor;
 };
 
 #endif

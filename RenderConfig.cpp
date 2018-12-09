@@ -6,6 +6,30 @@ RenderConfig::RenderConfig() :
 {
 }
 
+RenderConfig::~RenderConfig() 
+{
+}
+
+void RenderConfig::SetBackgroundColor(const RGBAColor& iBackgroundColor) 
+{
+	m_BackgroundColor = iBackgroundColor;
+}
+
+RGBAColor RenderConfig::GetBackgroundColor() const 
+{
+	return m_BackgroundColor;
+}
+
+void RenderConfig::SetMSAA(const EMSAA iMsaa) 
+{
+	m_Msaa = iMsaa;
+}
+
+RenderConfig::EMSAA RenderConfig::GetMSAA() const
+{
+	return m_Msaa;
+}
+
 std::vector<std::pair<float, float> > RenderConfig::GetSampleLocations(EMSAA iMsaa) const 
 {
 	std::vector<std::pair<float, float> > samplePositions;

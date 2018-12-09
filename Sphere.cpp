@@ -62,16 +62,17 @@ void Sphere::Hit(const Ray& iRay, Sample& oSample) const
 		if (minDistance > precision)
 		{
 			bHitFlag = true;
-			return;
+			goto HIT;
 		}
 
-		minDistance = (b - sqrtD) / denominator;
+		minDistance = (-b + sqrtD) / denominator;
 		if (minDistance > precision)
 		{
 			bHitFlag = true;
-			return;
+			goto HIT;
 		}
 
+		HIT:	//GOTO LABEL
 		if (bHitFlag)
 		{
 			Vertex3f hitPoint(Vector3D(rayOrigin) + (rayDirection * minDistance));

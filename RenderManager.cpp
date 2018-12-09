@@ -63,19 +63,20 @@ void RenderManager::RenderScene() const
 	m_Camera->GetRenderPlane()->CopyPixelData(&pixelData, pixelDataSize);
 
 	int topLeftX = -(static_cast<int>(width / 2));
-	int topLeftY = -(static_cast<int>(height / 2));
+	int topLeftY = (static_cast<int>(height / 2));
 	int bottomRightX = (static_cast<int>(width / 2));
-	int bottomRightY = (static_cast<int>(height / 2));
+	int bottomRightY = -(static_cast<int>(height / 2));
 
-	std::vector<std::pair<float, float> > sampleLocations;
+	std::vector<std::pair<float, float> > sampleLocations = m_RenderConfig.GetSampleLocations(msaa);
 	size_t vecSize = sampleLocations.size();
 
-	unsigned short finalRed = 0;
-	unsigned short finalGreen = 0;
-	unsigned short finalBlue = 0;
-	unsigned short finalAlpha = 0;
+	char finalRed = 0;
+	char finalGreen = 0;
+	char finalBlue = 0;
+	char finalAlpha = 0;
 
-	for (int row = topLeftY; row < bottomRightY; row++) 
+	//Navigation : top-left to bottom-right
+	for (int row = topLeftY; row > bottomRightY; row--) 
 	{
 		for (int col = topLeftX; col < bottomRightX; col++) 
 		{
@@ -93,7 +94,7 @@ void RenderManager::RenderScene() const
 
 				float xOffset = sampleLocations[sampleLoc].first;
 				float yOffset = sampleLocations[sampleLoc].second;
-				Ray ray(Vertex3f(((float)col) + xOffset, ((float)row) + yOffset, 0.0f), Vector3D(0.0f, 0.0f, 1.0f));
+				Ray ray(Vertex3f(((float)col) + xOffset, ((float)row) - yOffset, 0.0f), Vector3D(0.0f, 0.0f, 1.0f));
 				Sample finalSample = m_Render->Rendering(ray, m_Scene);
 				if (finalSample.IsValid()) 
 				{
@@ -115,19 +116,19 @@ void RenderManager::RenderScene() const
 			blue = blue / numSamples;
 			alpha = alpha / numSamples;
 
-			finalRed = static_cast<unsigned short> (red);
-			finalGreen = static_cast<unsigned short> (green);
-			finalBlue = static_cast<unsigned short> (blue);
-			finalAlpha = static_cast<unsigned short> (alpha);
+			finalRed = static_cast<char> (red);
+			finalGreen = static_cast<char> (green);
+			finalBlue = static_cast<char> (blue);
+			finalAlpha = static_cast<char> (alpha);
 
-			std::memcpy(pixelData + pixelDataStreamer, &finalRed, sizeof(unsigned short));
-			pixelDataStreamer += sizeof(unsigned short);
-			std::memcpy(pixelData + pixelDataStreamer, &finalGreen, sizeof(unsigned short));
-			pixelDataStreamer += sizeof(unsigned short);
-			std::memcpy(pixelData + pixelDataStreamer, &finalBlue, sizeof(unsigned short));
-			pixelDataStreamer += sizeof(unsigned short);
-			std::memcpy(pixelData + pixelDataStreamer, &finalAlpha, sizeof(unsigned short));
-			pixelDataStreamer += sizeof(unsigned short);
+			std::memcpy(pixelData + pixelDataStreamer, &finalRed, sizeof(char));
+			pixelDataStreamer += sizeof(char);
+			std::memcpy(pixelData + pixelDataStreamer, &finalGreen, sizeof(char));
+			pixelDataStreamer += sizeof(char);
+			std::memcpy(pixelData + pixelDataStreamer, &finalBlue, sizeof(char));
+			pixelDataStreamer += sizeof(char);
+			std::memcpy(pixelData + pixelDataStreamer, &finalAlpha, sizeof(char));
+			pixelDataStreamer += sizeof(char);
 		}
 	}
 
